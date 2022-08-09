@@ -13,3 +13,8 @@ serde_json = "1.0"
 chrono = "0.4"
 timer = "0.2.0"
 clap = { version = "3.2.14", features = ["derive"] }
+libc = "0.2.126"
+rand = "0.8.5"
+
+[package.metadata.rust-analyzer]
+rustc_private=true

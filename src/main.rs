@@ -1,23 +1,44 @@
-// use reqwest::Client;
+mod server;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use chrono::prelude::*;
+use server::Server;
 use std::io::Write;
 use std::time::Duration;
 use std::thread::sleep;
-use clap::Parser;
+use clap::{Parser, Subcommand};
 
 const FOREST_HOST: &str = "https://forest-china.upwardsware.com";
 
+// NOTE: arguments contruction
 #[derive(Parser)]
-#[clap(version, about, long_about = None)]
+#[clap(name = "MiniForest")]
+#[clap(author = "ch4xer <ch4xer@gmail.com>")]
+#[clap(version = "1.0")]
+#[clap(about = "A mini program which utilize Forest Api", long_about = None)]
 struct ARG {
-    #[clap(short, value_parser)]
-    email: String,
-    #[clap(short, value_parser)]
-    password: String,
-    #[clap(short, value_parser)]
-    time: u64,
+    #[clap(subcommand)]
+    command: Commands
+}
+
+#[derive(Subcommand)]
+enum Commands {
+    /// Start planting trees
+    #[clap(arg_required_else_help = true)]
+    Start {
+        /// users' email
+        #[clap(long, value_parser)]
+        email: String,
+        /// users' password
+        #[clap(long, value_parser)]
+        password: String,
+        /// planting time
+        #[clap(long, value_parser)]
+        time: u64,
+    },
+    /// Read remained time
+    Status {
+    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -45,15 +66,24 @@ static mut USER: User = User{
     remember_token: String::new(),
 };
 
+const SERVER:Server = Server::new();
+
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // display();
     let args: ARG = ARG::parse();
 
-    login(args.email, args.password).await?;
+    match args.command {
+        Commands::Start {email, password, time} => {
+            login(email, password).await?;
+            plant(time).await?;
+        },
+        Commands::Status {} => {
+            println!("{}", read_status());
+        }
+    }
 
-    plant(args.time).await?;
     Ok(())
 }
 
@@ -78,11 +108,8 @@ async fn login(email: String, password: String) -> Result<(), reqwest::Error> {
             .send()
             .await?;
 
-        // println!("{}", &resp.status());
         USER = resp.json::<User>().await?;
     }
-
-    // async fn login(email: &str, password: &str) -> Result<(), reqwest::Error> {
 
     Ok(())
 }
@@ -92,6 +119,11 @@ async fn plant(time: u64) -> Result<(), reqwest::Error> {
 
     // println!("Plant Start: {}",start_time);
     for i in 0..time*60 {
+
+        // write time to file for reading
+        let time_string = format!("{:0>2}:{:0>2}", (time*60-i)/60, (60 - i %60)%60);
+        SERVER.write_status(&time_string);
+
         print!("\r{:0>2}:{:0>2}", (time*60-i)/60, (60 - i %60)%60);
         sleep(Duration::new(1, 0));
         #[warn(unused_must_use)]
@@ -155,3 +187,6 @@ fn get_current_time() -> String {
     return now_time;
 }
 
+fn read_status() -> String {
+    SERVER.read_status()
+}
