@@ -138,6 +138,8 @@ async fn plant(time: u64) -> Result<(), reqwest::Error> {
         {std::io::stdout().flush().unwrap();}
     }
 
+    SERVER.destruct();
+
     let end_time = get_current_time();
     // println!("Plant End: {}", end_time);
 
@@ -186,6 +188,7 @@ async fn plant(time: u64) -> Result<(), reqwest::Error> {
             Ok(())
         }
     }
+
 }
 
 fn get_current_time() -> String {

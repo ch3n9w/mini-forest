@@ -1,7 +1,7 @@
 
 use std::fs::{File, self};
-use std::io::Write;
 use std::path::Path;
+use std::io::Write;
 
 const FOREST_FILE: &str = "/tmp/forest_data_file";
 
@@ -26,7 +26,7 @@ impl<'a> Server<'a> {
 
     pub fn read_status(&self) -> String {
         match fs::read_to_string(&self.path) {
-            Err(_) => { String::from("No forest data") },
+            Err(_) => { String::from("Start?") },
             Ok(text) => {text}
         }
     }
@@ -42,7 +42,7 @@ impl<'a> Server<'a> {
 
         match file.write_all(time.as_bytes()) {
             Err(why) => {
-                println!("Can not write {}:{}", display, why);
+                println!("Can not write cache file:{}", why);
                 return false;
             },
             Ok(_) => {
