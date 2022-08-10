@@ -1,6 +1,6 @@
 
 use std::fs::{File, self};
-use std::io::{Write, Read};
+use std::io::Write;
 use std::path::Path;
 
 const FOREST_FILE: &str = "/tmp/forest_data_file";
@@ -17,21 +17,14 @@ impl<'a> Server<'a> {
         }
     }
 
+    pub fn destruct(&self) {
+        match fs::remove_file(self.path) {
+            Err(_) => panic!("Can not clean temp file!"),
+            Ok(_) => {}
+        }
+    }
 
     pub fn read_status(&self) -> String {
-        // let path = Path::new(&self.path);
-        // let display = path.display();
-        // let mut file = match File::open(&path) {
-        //     Err(why) => panic!("couldn't open {}: {}", display, why),
-        //     Ok(file) => file,
-        // };
-
-        // let mut s = String::new();
-        // match file.read_to_string(&mut s) {
-        //     Err(why) => panic!("couldn't read {}:{}", display, why),
-        //     Ok(_) => print!("{} contains:\n {}", display, s),
-        // };
-        // return s;
         match fs::read_to_string(&self.path) {
             Err(_) => { String::from("No forest data") },
             Ok(text) => {text}

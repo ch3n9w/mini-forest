@@ -1,4 +1,6 @@
 mod server;
+use std::process;
+use ctrlc;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use chrono::prelude::*;
@@ -76,7 +78,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     match args.command {
         Commands::Start {email, password, time} => {
+
             login(email, password).await?;
+            ctrlc::set_handler(move || {
+                SERVER.destruct();
+                process::exit(0);
+            })
+            .expect("Error setting Ctrl-C handler");
             plant(time).await?;
         },
         Commands::Status {} => {

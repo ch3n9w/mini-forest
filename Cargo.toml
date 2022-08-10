@@ -15,6 +15,7 @@ timer = "0.2.0"
 clap = { version = "3.2.14", features = ["derive"] }
 libc = "0.2.126"
 rand = "0.8.5"
+ctrlc = { version = "3.0", features = ["termination"] }
 
 [package.metadata.rust-analyzer]
 rustc_private=true

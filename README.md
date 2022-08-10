@@ -32,3 +32,4 @@ SUBCOMMANDS:
 ## TODO
 
 - Integration with waybar
+- capture ^C 
