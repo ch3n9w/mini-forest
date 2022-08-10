@@ -29,7 +29,18 @@ SUBCOMMANDS:
 ./forest status
 ```
 
-## TODO
+## Integration with waybar
 
-- Integration with waybar
-- capture ^C 
+Add these to your waybar's config
+
+```
+"custom/forest": {
+    "exec":  "~/.config/waybar/bin/forest status",
+    "format": " {}",
+    "interval": 1,
+    "return-type": "string",
+    "on-click": "~/.config/waybar/bin/forest start --email 'ch4xer@gmail.com' --password roottoor --time 5",
+    "tooltip": false,
+}
+
+```
