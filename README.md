@@ -39,7 +39,7 @@ Add these to your waybar's config
     "format": " {}",
     "interval": 1,
     "return-type": "string",
-    "on-click": "~/.config/waybar/bin/forest start --email 'ch4xer@gmail.com' --password roottoor --time 5",
+    "on-click": "~/.config/waybar/bin/forest start --email 'xxxxx@xxx.com' --password <xxxxxx> --time 5",
     "tooltip": false,
 }
 
