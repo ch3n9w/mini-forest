@@ -16,7 +16,7 @@ const FOREST_HOST: &str = "https://forest-china.upwardsware.com";
 #[derive(Parser)]
 #[clap(name = "MiniForest")]
 #[clap(author = "ch4xer <ch4xer@gmail.com>")]
-#[clap(version = "1.0")]
+#[clap(version = "1.1")]
 #[clap(about = "A mini program which utilize Forest Api", long_about = None)]
 struct ARG {
     #[clap(subcommand)]
