@@ -1,4 +1,3 @@
-
 use std::fs::{File, self};
 use std::path::Path;
 use std::io::Write;
@@ -15,6 +14,7 @@ impl<'a> Server<'a> {
         Server {
             path: FOREST_FILE
         }
+        
     }
 
     pub fn destruct(&self) {
