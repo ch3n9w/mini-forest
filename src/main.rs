@@ -25,55 +25,41 @@ struct ARG {
 
 #[derive(Subcommand)]
 enum Commands {
-    // Start planting trees
     #[clap(arg_required_else_help = true)]
     Start {
-        // users' email
         #[clap(long, value_parser)]
         email: String,
-        // users' password
         #[clap(long, value_parser)]
         password: String,
-        // planting time
         #[clap(long, value_parser)]
         time: u64,
     },
-    // Read remained time
     Status {},
     #[clap(arg_required_else_help = true)]
     CheckCoin {
-        // users' email
         #[clap(long, value_parser)]
         email: String,
-        // users' password
         #[clap(long, value_parser)]
         password: String,
     },
     #[clap(arg_required_else_help = true)]
     CheckTotalTime {
-        // users' email
         #[clap(long, value_parser)]
         email: String,
-        // users' password
         #[clap(long, value_parser)]
         password: String,
     },
     #[clap(arg_required_else_help = true)]
     CheckHealthTree {
-        // users' email
         #[clap(long, value_parser)]
         email: String,
-        // users' password
         #[clap(long, value_parser)]
         password: String,
     },
-    // check user's info
     #[clap(arg_required_else_help = true)]
     CheckDeadTree {
-        // users' email
         #[clap(long, value_parser)]
         email: String,
-        // users' password
         #[clap(long, value_parser)]
         password: String,
     },
@@ -109,9 +95,7 @@ const SERVER: Server = Server::new();
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // display();
     let args: ARG = ARG::parse();
-
     match args.command {
         Commands::Start {
             email,

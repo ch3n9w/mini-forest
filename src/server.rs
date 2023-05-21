@@ -14,7 +14,6 @@ impl<'a> Server<'a> {
         Server {
             path: FOREST_FILE
         }
-        
     }
 
     pub fn destruct(&self) {
